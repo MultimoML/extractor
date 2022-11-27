@@ -6,7 +6,9 @@ Author: [Miha Krumpestar](https://github.com/mk2376)
 
 ## Setup/installation
 
-TODO
+```
+go mod init extractor-timer
+```
 
 ## License
 
