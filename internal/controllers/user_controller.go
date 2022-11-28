@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"context"
-	"extractor-timer/configs"
-	"extractor-timer/models"
-	"extractor-timer/responses"
+	"extractor-timer/internal/configs"
+	"extractor-timer/internal/models"
+	"extractor-timer/internal/responses"
 	"net/http"
 	"time"
 

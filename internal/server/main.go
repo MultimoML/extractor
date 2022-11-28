@@ -1,8 +1,8 @@
 package main
 
 import (
-	"extractor-timer/configs"
-	"extractor-timer/routes"
+	"extractor-timer/internal/configs"
+	"extractor-timer/internal/routes"
 
 	"github.com/gin-gonic/gin"
 )
@@ -12,7 +12,7 @@ func main() {
 	configs.LoadEnvironment()
 
 	// run database
-	configs.ConnectDB()
+	// configs.ConnectDB()
 	router := gin.Default()
 
 	// routes
