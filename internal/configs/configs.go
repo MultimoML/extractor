@@ -9,7 +9,6 @@ import (
 )
 
 func LoadEnvironment() {
-	fmt.Println("ENV loading started")
 	environment := os.Getenv("ENVIRONMENT")
 
 	switch environment {
@@ -25,6 +24,4 @@ func LoadEnvironment() {
 	default:
 		log.Fatal("Env variable ENVIRONMENT is not set or set to wrong value")
 	}
-
-	fmt.Println("ENV loaded")
 }

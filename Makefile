@@ -2,12 +2,14 @@
 
 .PHONY: build deploy
 
+ENVIRONMENT:=dev
+export ENVIRONMENT
+
 run:
-	export ENVIRONMENT=dev
-	go run internal/server/main.go
+	go run cmd/server/main.go
 
 build:
-	go build internal/server/main.go
+	go build cmd/server/main.go
 
 deploy:
 	sudo docker-compose -f docker-compose.yml --env-file .env up -d --force-recreate

@@ -11,16 +11,11 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-//Client instance
-var DB *mongo.Client = ConnectDB()
-
 func ConnectDB() *mongo.Client {
 	mUsername := os.Getenv("M_USERNAME")
 	mPassword := os.Getenv("M_PASSWORD")
 
 	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s:%s/", mUsername, mPassword, "localhost", "27017")
-
-	fmt.Println(mongodbUrl)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongodbUrl))
 	if err != nil {
@@ -41,9 +36,10 @@ func ConnectDB() *mongo.Client {
 
 	fmt.Println("Connected to MongoDB")
 	return client
+
 }
 
-//getting database collections
+// getting database collections
 func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
 	database := os.Getenv("DATABASE")
 
