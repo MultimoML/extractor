@@ -2,6 +2,10 @@
 
 .PHONY: build deploy
 
+run:
+	export ENVIRONMENT=dev
+	go run main.go
+
 build:
 
 

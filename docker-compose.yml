@@ -17,7 +17,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - /etc/multimo/extractor-timer/mongo-data:/data/db:rw
+      - /etc/multimo/docker-data/extractor-timer/mongo-data:/data/db:rw
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${M_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${M_PASSWORD}

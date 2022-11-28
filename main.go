@@ -1,15 +1,22 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"extractor-timer/configs"
+	"extractor-timer/routes"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
+	// load ENV
+	configs.LoadEnvironment()
+
+	// run database
+	configs.ConnectDB()
 	router := gin.Default()
 
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"data": "Hello from Gin-gonic & mongoDB",
-		})
-	})
+	// routes
+	routes.UserRoute(router)
 
-	router.Run("localhost:6000")
+	router.Run("0.0.0.0:6000")
 }
