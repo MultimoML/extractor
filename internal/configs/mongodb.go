@@ -22,7 +22,9 @@ func ConnectDB() *mongo.Client {
 		log.Fatal(err)
 	}
 
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, ctxCancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer ctxCancel()
+
 	err = client.Connect(ctx)
 	if err != nil {
 		log.Fatal(err)
