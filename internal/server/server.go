@@ -2,21 +2,21 @@ package server
 
 import (
 	"extractor-timer/internal/configs"
-	"extractor-timer/internal/routes"
-
-	"github.com/gin-gonic/gin"
+	"extractor-timer/internal/scraper"
 )
 
 func Run() {
 	// load ENV
 	configs.LoadEnvironment()
 
+	scraper.Scraper()
+
 	// run database
-	configs.ConnectDB()
-	router := gin.Default()
+	//configs.ConnectDB()
+	//router := gin.Default()
 
 	// routes
-	routes.Routes(router)
+	//routes.Routes(router)
 
-	router.Run("0.0.0.0:6000")
+	//router.Run("0.0.0.0:6000")
 }

@@ -1,20 +1,6 @@
 package controllers
 
-import (
-	"context"
-	"extractor-timer/internal/configs"
-	"extractor-timer/internal/models"
-	"extractor-timer/internal/responses"
-	"net/http"
-	"time"
-
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-)
-
+/*
 var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "users")
 var validate = validator.New()
 
@@ -169,3 +155,4 @@ func GetAllUsers() gin.HandlerFunc {
 		)
 	}
 }
+*/
