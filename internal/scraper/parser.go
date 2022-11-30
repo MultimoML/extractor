@@ -18,41 +18,48 @@ const (
 				id: .id,
 				name: .masterValues.name,
 
-				"is-on-promotion": 				.masterValues."is-on-promotion",
+	
 				"category-names": 				.masterValues."category-names",
 				"category-name": 					.masterValues."category-name",
 				"allergens-filter": 			.masterValues."allergens-filter",
 
-				"sales-unit": .masterValues."sales-unit",
-				title: .masterValues.title,
-				"code-internal": .masterValues."code-internal",
-
-				price: 										.masterValues.price,
-				"created-at": 						.masterValues."created-at",
-				"best-price": 						.masterValues."best-price",
-				"stock-status": 					.masterValues."stock-status",
-				"is-new": 								.masterValues."is-new",
+				"sales-unit": 						.masterValues."sales-unit",
+				title: 										.masterValues.title,
+				"code-internal":					.masterValues."code-internal",
 				"image-url": 							.masterValues."image-url",
+				"created-at": 						.masterValues."created-at",
 				"approx-weight-product": 	.masterValues."approx-weight-product",
 				url: 											.masterValues.url,
 				brand: 										.masterValues."ecr-brand",
-				"price-per-unit": 				.masterValues."price-per-unit",
-				"regular-price": 					.masterValues."regular-price",
-				"price-per-unit-number": 	.masterValues."price-per-unit-number",
+
+				"price-in-time": 					[{
+					timestamp:								timestamp,
+					"is-on-promotion": 				.masterValues."is-on-promotion",
+					price: 										.masterValues.price,
+					"price-per-unit": 				.masterValues."price-per-unit",
+					"regular-price": 					.masterValues."regular-price",
+					"price-per-unit-number": 	.masterValues."price-per-unit-number",
+					"best-price": 						.masterValues."best-price",
+					"stock-status": 					.masterValues."stock-status",
+					"is-new": 								.masterValues."is-new",
+				}],
 			}
-			| .id |= leadingZeros24 
-			| ."is-on-promotion" |= tobool
+
+			| .id |= leadingZeros24
 			| ."category-names" |= split
 			| ."created-at" |= todatetime
 			| ."code-internal" |= tonumber
-			| ."is-new" |= tobool
 			| ."approx-weight-product" |= tobool
+
+			| ."price-in-time".[0]."is-on-promotion" |= tobool
+			| ."price-in-time".[0]."is-new" |= tobool
 		`
 	timeout = time.Minute
 )
 
-func ParseSpar(dataUnparsed interface{}) ([]interface{}, error) {
-	fmt.Println("Started ParseSpar...")
+func ParseSpar(dataUnparsed interface{}, timestamp time.Time) ([]interface{}, error) {
+	fmt.Printf("\nStarted ParseSpar...\n")
+	start := time.Now()
 
 	query, err := gojq.Parse(jqQuerySpar)
 	if err != nil {
@@ -83,6 +90,11 @@ func ParseSpar(dataUnparsed interface{}) ([]interface{}, error) {
 			}
 
 			return primitive.DateTime(datetime)
+		}),
+		gojq.WithFunction("timestamp", 0, 0, func(x interface{}, xs []interface{}) (out interface{}) {
+			time := primitive.DateTime(timestamp.UnixMilli())
+
+			return time
 		}),
 		gojq.WithFunction("split", 0, 0, func(x interface{}, xs []interface{}) (out interface{}) {
 			if x == nil {
@@ -124,6 +136,10 @@ func ParseSpar(dataUnparsed interface{}) ([]interface{}, error) {
 
 	fmt.Println("ParseSpar parser successfully finished parsing.")
 	fmt.Printf("Parsed %v entrys.\n", len(dataParsed))
+
+	// calculate to exe time
+	elapsed := time.Since(start)
+	fmt.Printf("ParseSpar run time %s\n", elapsed)
 
 	return dataParsed, nil
 }

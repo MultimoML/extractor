@@ -6,13 +6,16 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/go-resty/resty/v2"
 )
 
 const sparScrapingURL = "https://search-spar.spar-ics.com/fact-finder/rest/v4/search/products_lmos_si?query=*&hitsPerPage=9999999"
 
-func Scraper() {
+func ScrapeSpar() models.Products {
+	start := time.Now()
+
 	// Create a Resty Client
 	client := resty.New()
 
@@ -28,6 +31,8 @@ func Scraper() {
 	}
 
 	rawData := resp.Body()
+	timestamp := resp.ReceivedAt()
+
 	var dataUnparsed interface{}
 
 	err = json.Unmarshal(rawData, &dataUnparsed)
@@ -37,7 +42,7 @@ func Scraper() {
 
 	// fmt.Printf("\n%+v\n", dataUnparsed)
 
-	dataParsed, err := ParseSpar(dataUnparsed)
+	dataParsed, err := ParseSpar(dataUnparsed, timestamp)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -55,4 +60,10 @@ func Scraper() {
 	}
 
 	// fmt.Printf("\n%#v\n", products)
+
+	// calculate to exe time
+	elapsed := time.Since(start)
+	fmt.Printf("ScrapeSpar run time %s\n", elapsed)
+
+	return products
 }

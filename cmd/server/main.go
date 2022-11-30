@@ -1,7 +1,11 @@
 package main
 
-import "extractor-timer/internal/server"
+import (
+	"context"
+	"extractor-timer/internal/server"
+)
 
 func main() {
-	server.Run()
+	ctx := context.Background()
+	server.Run(ctx)
 }
