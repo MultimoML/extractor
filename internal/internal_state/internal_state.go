@@ -78,7 +78,7 @@ func Scrape() {
 
 	// calculate to exe time
 	elapsed := time.Since(start)
-	fmt.Printf("\nRun at %v finished. Total run time %v\n\n", internalState.LastRunTimestamp.Time().Format("2006-01-02T15:04:05Z07:00"), elapsed)
+	fmt.Printf("\nRun at %v finished. Total run time %v\n\n", start.Format("2006-01-02T15:04:05Z07:00"), elapsed)
 }
 
 func setScheduler() {

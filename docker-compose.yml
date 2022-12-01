@@ -1,12 +1,33 @@
 version: '3'
 
 services:
-  #myapplication:
-  #  image: myapp:1.0
-  #  environment: 
-  #    - MONGODB_CONNSTRING=mongodb://AzureDiamond:hunter2@mongodb
-  #  ports:
-  #    - 3000:3000
+  extractor-timer:
+    image: extractor-timer:latest
+    container_name: extractor-timer
+    restart: unless-stopped
+    networks:
+      - extractor-timer
+      - traefik-proxy
+    #ports:
+    #  - 6000:6000
+    environment: 
+      # Mongo
+      M_USERNAME: ${M_USERNAME}
+      M_PASSWORD: ${M_PASSWORD}
+      DATABASE: ${DATABASE}
+      # Extractor-timer
+      ENVIRONMENT: "prod"
+      M_SERVER: extractor-timer-mongo:27017
+      RUN_INTERVAL: 14400 # 4h in seconds
+      PORT: 6000
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
+      traefik.http.routers.extractor-timer.rule: Host(`extractor-timer.${DOMAIN}`)
+      traefik.http.routers.extractor-timer.entrypoints: https
+      traefik.http.services.extractor-timer.loadbalancer.server.port: 6000
+    depends_on:
+      - extractor-timer-mongo
     
   extractor-timer-mongo:
     image: docker.io/mongo:latest
@@ -30,19 +51,21 @@ services:
     networks:
       - extractor-timer
       - traefik-proxy
-    ports:
-      - 8081:8081
+    #ports:
+    #  - 8081:8081
     environment:
-      ME_CONFIG_BASICAUTH_USERNAME: ${ME_USERNAME}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD}
+      #ME_CONFIG_BASICAUTH_USERNAME: ${ME_USERNAME}
+      #ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD}
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_PASSWORD}
       ME_CONFIG_MONGODB_URL: mongodb://${M_USERNAME}:${M_PASSWORD}@extractor-timer-mongo:27017/ #${DATABASE}
     labels:
-      traefik.enable: false
+      traefik.enable: true
+      traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
       traefik.http.routers.extractor-timer-mongo-express.rule: Host(`extractor-timer-mongo-express.${DOMAIN}`)
       traefik.http.routers.extractor-timer-mongo-express.entrypoints: https
       traefik.http.services.extractor-timer-mongo-express.loadbalancer.server.port: 8081
+      traefik.http.routers.extractor-timer-mongo-express.middlewares: traefik-auth
     depends_on:
       - extractor-timer-mongo
 

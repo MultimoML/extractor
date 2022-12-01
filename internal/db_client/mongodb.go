@@ -34,8 +34,9 @@ func connectDB() {
 
 	mUsername := os.Getenv("M_USERNAME")
 	mPassword := os.Getenv("M_PASSWORD")
+	mServer := os.Getenv("M_SERVER")
 
-	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s:%s/", mUsername, mPassword, "localhost", "27017")
+	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s/", mUsername, mPassword, mServer)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongodbUrl))
 	if err != nil {
