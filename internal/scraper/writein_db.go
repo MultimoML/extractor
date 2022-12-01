@@ -1,8 +1,8 @@
-package controllers
+package scraper
 
 import (
 	"context"
-	"extractor-timer/internal/configs"
+	"extractor-timer/internal/db_client"
 	"extractor-timer/internal/models"
 	"fmt"
 	"log"
@@ -12,11 +12,12 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func WriteProductsSpar(ctx context.Context, mongoClient *mongo.Client, products models.Products) {
-	fmt.Println("Starting WriteProductsSpar...")
+func WriteProductsSpar(ctx context.Context, products models.Products) {
+	fmt.Printf("\nStarting WriteProductsSpar...\n")
 	start := time.Now()
 
-	var sparCollection *mongo.Collection = configs.GetCollection(mongoClient, "spar")
+	dbClient := db_client.DBClient()
+	sparCollection := db_client.GetCollection(dbClient, "spar")
 
 	for _, product := range products {
 		resultInsert, err := sparCollection.InsertOne(ctx, product)
@@ -45,7 +46,5 @@ func WriteProductsSpar(ctx context.Context, mongoClient *mongo.Client, products 
 
 	// calculate to exe time
 	elapsed := time.Since(start)
-	fmt.Printf("WriteProductsSpar run time %s\n", elapsed)
-
-	fmt.Println("WriteProductsSpar finished.")
+	fmt.Printf("WriteProductsSpar run time %v\n", elapsed)
 }

@@ -57,7 +57,7 @@ const (
 	timeout = time.Minute
 )
 
-func ParseSpar(dataUnparsed interface{}, timestamp time.Time) ([]interface{}, error) {
+func parseSpar(ctx context.Context, dataUnparsed interface{}, timestamp time.Time) ([]interface{}, error) {
 	fmt.Printf("\nStarted ParseSpar...\n")
 	start := time.Now()
 
@@ -114,11 +114,11 @@ func ParseSpar(dataUnparsed interface{}, timestamp time.Time) ([]interface{}, er
 
 	var dataParsed []interface{}
 
-	ctx, ctxCancel := context.WithTimeout(context.Background(), timeout)
+	ctxWithTimeout, ctxCancel := context.WithTimeout(ctx, timeout)
 	defer ctxCancel()
 
 	fmt.Println("Starting gojq engine...")
-	iter := code.RunWithContext(ctx, dataUnparsed)
+	iter := code.RunWithContext(ctxWithTimeout, dataUnparsed)
 	for {
 		v, ok := iter.Next()
 		// fmt.Printf("\n%+v\n", v)
@@ -134,12 +134,11 @@ func ParseSpar(dataUnparsed interface{}, timestamp time.Time) ([]interface{}, er
 		dataParsed = append(dataParsed, v)
 	}
 
-	fmt.Println("ParseSpar parser successfully finished parsing.")
 	fmt.Printf("Parsed %v entrys.\n", len(dataParsed))
 
 	// calculate to exe time
 	elapsed := time.Since(start)
-	fmt.Printf("ParseSpar run time %s\n", elapsed)
+	fmt.Printf("ParseSpar run time %v\n", elapsed)
 
 	return dataParsed, nil
 }

@@ -3,32 +3,29 @@ package server
 import (
 	"context"
 	"extractor-timer/internal/configs"
-	"extractor-timer/internal/controllers"
-	"extractor-timer/internal/scraper"
+	"extractor-timer/internal/db_client"
+	"extractor-timer/internal/internal_state"
+	"extractor-timer/internal/routes"
 	"fmt"
-	"time"
+	"os"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Run(ctx context.Context) {
-	start := time.Now()
-
 	// load ENV
 	configs.LoadEnvironment()
 
-	products := scraper.ScrapeSpar()
+	// init database
+	db_client.DBClient(ctx)
 
-	// run database
-	mongoClient := configs.ConnectDB()
-	controllers.WriteProductsSpar(ctx, mongoClient, products)
+	// init internalState
+	internal_state.InternalState(ctx)
 
-	// calculate to exe time
-	elapsed := time.Since(start)
-	fmt.Printf("Total run time %s\n", elapsed)
-
-	//router := gin.Default()
-
-	// routes
-	//routes.Routes(router)
-
-	//router.Run("0.0.0.0:6000")
+	// start http server
+	gin.SetMode(gin.ReleaseMode)
+	router := gin.Default()
+	routes.Routes(router)
+	address := fmt.Sprintf("0.0.0.0:%v", os.Getenv("PORT"))
+	router.Run(address)
 }

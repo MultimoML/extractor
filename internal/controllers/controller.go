@@ -1,9 +1,36 @@
 package controllers
 
-/*
-var userCollection *mongo.Collection = configs.GetCollection(configs.DB, "users")
+import (
+	"extractor-timer/internal/internal_state"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator"
+)
+
 var validate = validator.New()
 
+func Self() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, "")
+	}
+}
+
+func Info() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.JSON(http.StatusOK, internal_state.InternalState())
+	}
+}
+
+func Extract() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		go internal_state.Scrape()
+
+		c.JSON(http.StatusAccepted, "")
+	}
+}
+
+/*
 func CreateUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

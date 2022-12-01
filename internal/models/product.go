@@ -33,5 +33,5 @@ type Product struct {
 	URL                 string             `json:"url" bson:"url" validate:"required"`
 	Brand               string             `json:"brand" bson:"brand" validate:"required"`
 
-	PriceInTime []PriceInTime `json:"price-in-time,omitempty" bson:"price-in-time,omitempty" validate:"required"`
+	PriceInTime []PriceInTime `json:"price-in-time" bson:"price-in-time" validate:"required"`
 }
