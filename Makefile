@@ -1,11 +1,11 @@
 # https://makefiletutorial.com/
 
-.PHONY: build deploy
+.PHONY: dev build-deploy build deploy
 
 ENVIRONMENT:=dev
 export ENVIRONMENT
 
-run:
+dev:
 	go run cmd/server/main.go
 
 build-deploy:
@@ -13,7 +13,7 @@ build-deploy:
 	make deploy
 
 build:
-	sudo docker build -t extractor-timer .
+	sudo docker build -t multimoml/extractor-timer:latest .
 
 deploy:
 	sudo docker-compose -f docker-compose.yml --env-file .env up -d --force-recreate

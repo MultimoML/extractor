@@ -2,7 +2,7 @@ version: '3'
 
 services:
   extractor-timer:
-    image: extractor-timer:latest
+    image: multimoml/extractor-timer:latest
     container_name: extractor-timer
     restart: unless-stopped
     networks:
