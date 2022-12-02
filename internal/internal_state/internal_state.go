@@ -70,8 +70,12 @@ func Scrape() {
 	products := scraper.ScrapeSpar(ctx)
 	scraper.WriteProductsSpar(ctx, products)
 
-	internalState.LastRunTimestamp = internalState.NextRunTimestamp
-	internalState.NextRunTimestamp = primitive.DateTime(internalState.LastRunTimestamp.Time().Add(internalState.RunInterval).UnixMilli())
+	// prevent changing internalState time if function was triggered before internalState.NextRunTimestamp
+	if !internalState.NextRunTimestamp.Time().Before(time.Now()) {
+		internalState.LastRunTimestamp = internalState.NextRunTimestamp
+		internalState.NextRunTimestamp = primitive.DateTime(internalState.LastRunTimestamp.Time().Add(internalState.RunInterval).UnixMilli())
+	}
+
 	internalState.CurrentState = models.CurrentStateIdle
 	internalState.RunCount++
 	applyToDB()
@@ -129,7 +133,7 @@ func initInternalStateDB() {
 		internalStateDB := getFromDB()
 
 		internalState.LastRunTimestamp = internalStateDB.LastRunTimestamp
-		internalState.NextRunTimestamp = primitive.DateTime(internalStateDB.LastRunTimestamp.Time().Add(internalState.RunInterval).UnixMilli())
+		internalState.NextRunTimestamp = primitive.DateTime(internalState.LastRunTimestamp.Time().Add(internalState.RunInterval).UnixMilli())
 		internalState.CurrentState = models.CurrentStateIdle
 		internalState.RunCount = internalStateDB.RunCount
 
