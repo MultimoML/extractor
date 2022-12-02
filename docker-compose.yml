@@ -71,5 +71,6 @@ services:
 
 networks:
   extractor-timer:
+    external: true
   traefik-proxy:
     external: true
