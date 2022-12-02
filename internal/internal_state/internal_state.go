@@ -71,7 +71,7 @@ func Scrape() {
 	scraper.WriteProductsSpar(ctx, products)
 
 	// prevent changing internalState time if function was triggered before internalState.NextRunTimestamp
-	if !internalState.NextRunTimestamp.Time().Before(time.Now()) {
+	if internalState.NextRunTimestamp.Time().Before(time.Now()) {
 		internalState.LastRunTimestamp = internalState.NextRunTimestamp
 		internalState.NextRunTimestamp = primitive.DateTime(internalState.LastRunTimestamp.Time().Add(internalState.RunInterval).UnixMilli())
 	}
