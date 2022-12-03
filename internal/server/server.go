@@ -2,10 +2,10 @@ package server
 
 import (
 	"context"
-	"extractor-timer/internal/configs"
-	"extractor-timer/internal/db_client"
-	"extractor-timer/internal/internal_state"
-	"extractor-timer/internal/routes"
+	"extractor/internal/configs"
+	"extractor/internal/db_client"
+	"extractor/internal/internal_state"
+	"extractor/internal/routes"
 	"fmt"
 	"os"
 

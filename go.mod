@@ -1,4 +1,4 @@
-module extractor-timer
+module extractor
 
 go 1.18
 

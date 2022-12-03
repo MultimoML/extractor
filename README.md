@@ -1,8 +1,8 @@
-# Extractor-timer
+# Extractor
 
 ## Project description
 
-Extractor-timer extracts (scrapes) data from web stores and puts it into a Mongo database. It does that periodicaly. 
+Extractor extracts (scrapes) data from web stores and puts it into a Mongo database. It does that periodicaly. 
 
 Author: [Miha Krumpestar](https://github.com/mk2376)
 
@@ -16,7 +16,7 @@ Other usages are defined in [Makefile](Makefile)
 
 ## Endpoints
 
-### extractor-timer (public)
+### extractor (public)
 
 Base URL: `https://multimo.ml/extractor`
 
@@ -40,4 +40,4 @@ URL: `https://products-db-ui.multimo.ml`
 
 ## License
 
-RSOcena is licensed under the [GNU AGPLv3 license](LICENSE).
+Project is licensed under the [GNU AGPLv3 license](LICENSE).

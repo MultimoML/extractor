@@ -2,8 +2,8 @@ package scraper
 
 import (
 	"context"
-	"extractor-timer/internal/db_client"
-	"extractor-timer/internal/models"
+	"extractor/internal/db_client"
+	"extractor/internal/models"
 	"fmt"
 	"log"
 	"time"

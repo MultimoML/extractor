@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  extractor-timer:
-    image: multimoml/extractor-timer:latest
-    container_name: extractor-timer
+  extractor:
+    image: multimoml/extractor:latest
+    container_name: extractor
     restart: unless-stopped
     networks:
       - products-db
@@ -13,7 +13,7 @@ services:
       M_USERNAME: ${M_USERNAME}
       M_PASSWORD: ${M_PASSWORD}
       DATABASE: ${DATABASE}
-      # Extractor-timer
+      # Extractor
       ENVIRONMENT: "prod"
       M_SERVER: products-db:27017
       RUN_INTERVAL: 14400 # 4h in seconds
@@ -21,9 +21,9 @@ services:
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
-      traefik.http.routers.extractor-timer.rule: Host(`${DOMAIN}`) && PathPrefix(/extractor)
-      traefik.http.routers.extractor-timer.entrypoints: https
-      traefik.http.services.extractor-timer.loadbalancer.server.port: 6000
+      traefik.http.routers.extractor.rule: Host(`${DOMAIN}`) && PathPrefix(`/extractor`)
+      traefik.http.routers.extractor.entrypoints: https
+      traefik.http.services.extractor.loadbalancer.server.port: 6000
     depends_on:
       - products-db
     

@@ -2,9 +2,9 @@ package internal_state
 
 import (
 	"context"
-	"extractor-timer/internal/db_client"
-	"extractor-timer/internal/models"
-	"extractor-timer/internal/scraper"
+	"extractor/internal/db_client"
+	"extractor/internal/models"
+	"extractor/internal/scraper"
 	"fmt"
 	"log"
 	"os"

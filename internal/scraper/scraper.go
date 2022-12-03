@@ -3,7 +3,7 @@ package scraper
 import (
 	"context"
 	"encoding/json"
-	"extractor-timer/internal/models"
+	"extractor/internal/models"
 	"fmt"
 	"log"
 	"net/http"

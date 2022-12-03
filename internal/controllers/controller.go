@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"extractor-timer/internal/internal_state"
+	"extractor/internal/internal_state"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

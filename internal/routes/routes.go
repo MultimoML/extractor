@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"extractor-timer/internal/controllers"
+	"extractor/internal/controllers"
 
 	"github.com/gin-gonic/gin"
 )

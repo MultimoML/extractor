@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"extractor-timer/internal/server"
+	"extractor/internal/server"
 )
 
 func main() {
