@@ -21,7 +21,7 @@ services:
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
-      traefik.http.routers.extractor.rule: Host(`${DOMAIN}`) && PathPrefix(`/extractor`)
+      traefik.http.routers.extractor.rule: Host(`${DOMAIN}`) && PathPrefix(`/extractor/`)
       traefik.http.routers.extractor.entrypoints: https
       traefik.http.services.extractor.loadbalancer.server.port: 6000
     depends_on:
