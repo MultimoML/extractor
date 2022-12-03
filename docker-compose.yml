@@ -6,10 +6,8 @@ services:
     container_name: extractor-timer
     restart: unless-stopped
     networks:
-      - extractor-timer
+      - products-db
       - traefik-proxy
-    #ports:
-    #  - 6000:6000
     environment: 
       # Mongo
       M_USERNAME: ${M_USERNAME}
@@ -17,60 +15,54 @@ services:
       DATABASE: ${DATABASE}
       # Extractor-timer
       ENVIRONMENT: "prod"
-      M_SERVER: extractor-timer-mongo:27017
+      M_SERVER: products-db:27017
       RUN_INTERVAL: 14400 # 4h in seconds
       PORT: 6000
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
-      traefik.http.routers.extractor-timer.rule: Host(`extractor-timer.${DOMAIN}`)
+      traefik.http.routers.extractor-timer.rule: Host(`${DOMAIN}`) && PathPrefix(/extractor)
       traefik.http.routers.extractor-timer.entrypoints: https
       traefik.http.services.extractor-timer.loadbalancer.server.port: 6000
     depends_on:
-      - extractor-timer-mongo
+      - products-db
     
-  extractor-timer-mongo:
+  products-db:
     image: docker.io/mongo:latest
-    container_name: extractor-timer-mongo
+    container_name: products-db
     restart: unless-stopped
     networks:
-      - extractor-timer
+      - products-db
     ports:
       - 27017:27017
     volumes:
-      - /etc/multimo/docker-data/extractor-timer/mongo-data:/data/db:rw
+      - /etc/multimo/docker-data/products-db:/data/db:rw
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${M_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${M_PASSWORD}
       MONGO_INITDB_DATABASE: ${DATABASE}
   
-  extractor-timer-mongo-express:
+  products-db-ui:
     image: docker.io/mongo-express:latest
-    container_name: extractor-timer-mongo-express
+    container_name: products-db-ui
     restart: unless-stopped
     networks:
-      - extractor-timer
+      - products-db
       - traefik-proxy
-    #ports:
-    #  - 8081:8081
     environment:
-      #ME_CONFIG_BASICAUTH_USERNAME: ${ME_USERNAME}
-      #ME_CONFIG_BASICAUTH_PASSWORD: ${ME_PASSWORD}
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_PASSWORD}
-      ME_CONFIG_MONGODB_URL: mongodb://${M_USERNAME}:${M_PASSWORD}@extractor-timer-mongo:27017/ #${DATABASE}
+      ME_CONFIG_MONGODB_URL: mongodb://${M_USERNAME}:${M_PASSWORD}@products-db:27017/ #${DATABASE}
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
-      traefik.http.routers.extractor-timer-mongo-express.rule: Host(`extractor-timer-mongo-express.${DOMAIN}`)
-      traefik.http.routers.extractor-timer-mongo-express.entrypoints: https
-      traefik.http.services.extractor-timer-mongo-express.loadbalancer.server.port: 8081
-      traefik.http.routers.extractor-timer-mongo-express.middlewares: traefik-auth
+      traefik.http.routers.products-db-ui.rule: Host(`products-db-ui.${DOMAIN}`)
+      traefik.http.routers.products-db-ui.entrypoints: https
+      traefik.http.services.products-db-ui.loadbalancer.server.port: 8081
+      traefik.http.routers.products-db-ui.middlewares: traefik-auth
     depends_on:
-      - extractor-timer-mongo
+      - products-db
 
 networks:
-  extractor-timer:
+  products-db:
     external: true
   traefik-proxy:
     external: true

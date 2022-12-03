@@ -8,8 +8,10 @@ import (
 
 func Routes(router *gin.Engine) {
 	router.GET("/self", controllers.Self())
-	router.GET("/info", controllers.Info())
-	router.POST("/extract", controllers.Extract())
+
+	v1 := router.Group("/v1")
+	v1.GET("/info", controllers.Info())
+	v1.POST("/extract", controllers.Extract())
 
 	/*
 		router.POST("/user", controllers.CreateUser())
