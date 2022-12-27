@@ -8,7 +8,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func LoadEnvironment() {
+func LoadEnvironment() string {
 	environment := os.Getenv("ENVIRONMENT")
 
 	switch environment {
@@ -24,4 +24,6 @@ func LoadEnvironment() {
 	default:
 		log.Fatal("Env variable ENVIRONMENT is not set or set to wrong value")
 	}
+
+	return environment
 }

@@ -18,6 +18,8 @@ services:
       M_SERVER: products-db:27017
       RUN_INTERVAL: 14400 # 4h in seconds
       PORT: 6000
+      # Datadog
+      DD_AGENT_HOST: ${DD_AGENT_HOST}
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
