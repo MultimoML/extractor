@@ -17,7 +17,7 @@ func WriteProductsSpar(ctx context.Context, products models.Products) {
 	start := time.Now()
 
 	dbClient := db_client.DBClient()
-	sparCollection := db_client.GetCollection(dbClient, "spar")
+	sparCollection := db_client.GetCollectionExtractor(dbClient, "spar")
 
 	for _, product := range products {
 		resultInsert, err := sparCollection.InsertOne(ctx, product)

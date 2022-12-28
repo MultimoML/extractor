@@ -8,7 +8,6 @@ import (
 	"extractor/internal/routes"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	gintrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/gin-gonic/gin"
@@ -57,6 +56,14 @@ func Run(ctx context.Context) {
 	router.Use(gintrace.Middleware(serviceName))
 
 	routes.Routes(router)
-	address := fmt.Sprintf("0.0.0.0:%v", os.Getenv("PORT"))
-	router.Run(address)
+	port, err := configs.GetEnv("PORT")
+	if err != nil {
+		panic(err)
+	}
+
+	address := fmt.Sprintf("0.0.0.0:%v", *port)
+	err = router.Run(address)
+	if err != nil {
+		panic(err)
+	}
 }

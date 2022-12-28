@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -9,9 +10,12 @@ import (
 )
 
 func LoadEnvironment() string {
-	environment := os.Getenv("ENVIRONMENT")
+	environment, err := GetEnv("ENVIRONMENT")
+	if err != nil {
+		panic(err)
+	}
 
-	switch environment {
+	switch *environment {
 	case "dev":
 		err := godotenv.Load()
 		if err != nil {
@@ -25,5 +29,19 @@ func LoadEnvironment() string {
 		log.Fatal("Env variable ENVIRONMENT is not set or set to wrong value")
 	}
 
-	return environment
+	return *environment
+}
+
+func GetEnv(envName string) (*string, error) {
+	if envName == "" {
+		return nil, errors.New("envName is empty")
+	}
+
+	envValue := os.Getenv(envName)
+
+	if envValue == "" {
+		return nil, fmt.Errorf("envValue for envName %s is empty", envName)
+	}
+
+	return &envValue, nil
 }

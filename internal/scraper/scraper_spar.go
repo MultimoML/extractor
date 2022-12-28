@@ -19,7 +19,7 @@ func ScrapeSpar(ctx context.Context) models.Products {
 	start := time.Now()
 
 	// Create a Resty Client
-	client := resty.New()
+	client := resty.New().SetTimeout(time.Minute)
 
 	resp, err := client.R().Get(sparScrapingURL)
 	if err != nil {

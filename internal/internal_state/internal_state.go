@@ -2,12 +2,12 @@ package internal_state
 
 import (
 	"context"
+	"extractor/internal/configs"
 	"extractor/internal/db_client"
 	"extractor/internal/models"
 	"extractor/internal/scraper"
 	"fmt"
 	"log"
-	"os"
 	"strconv"
 	"sync"
 	"time"
@@ -102,10 +102,14 @@ func initInternalStateDB() {
 	fmt.Printf("Started initInternalStateDB...\n")
 
 	dbClient := db_client.DBClient()
-	dbCollection = db_client.GetCollection(dbClient, "internal_state")
+	dbCollection = db_client.GetCollectionInternalState(dbClient)
 
-	runIntervalEnv := os.Getenv("RUN_INTERVAL") // in seconds
-	runIntervalSeconds, err := strconv.Atoi(runIntervalEnv)
+	runIntervalEnv, err := configs.GetEnv("RUN_INTERVAL") // in seconds
+	if err != nil {
+		panic(err)
+	}
+
+	runIntervalSeconds, err := strconv.Atoi(*runIntervalEnv)
 	if err != nil {
 		log.Fatal(err)
 	}

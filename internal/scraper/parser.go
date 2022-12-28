@@ -15,33 +15,33 @@ import (
 const (
 	jqQuerySpar = `.hits[] | 
 			{
-				id: .id,
-				name: .masterValues.name,
+				id: 							.id,
+				name: 							.masterValues.name,
 
 	
 				"category-names": 				.masterValues."category-names",
-				"category-name": 					.masterValues."category-name",
+				"category-name": 				.masterValues."category-name",
 				"allergens-filter": 			.masterValues."allergens-filter",
 
-				"sales-unit": 						.masterValues."sales-unit",
-				title: 										.masterValues.title,
-				"code-internal":					.masterValues."code-internal",
-				"image-url": 							.masterValues."image-url",
-				"created-at": 						.masterValues."created-at",
-				"approx-weight-product": 	.masterValues."approx-weight-product",
-				url: 											.masterValues.url,
-				brand: 										.masterValues."ecr-brand",
+				"sales-unit": 					.masterValues."sales-unit",
+				title: 							.masterValues.title,
+				"code-internal":				.masterValues."code-internal",
+				"image-url": 					.masterValues."image-url",
+				"created-at": 					.masterValues."created-at",
+				"approx-weight-product": 		.masterValues."approx-weight-product",
+				url: 							.masterValues.url,
+				brand: 							.masterValues."ecr-brand",
 
-				"price-in-time": 					[{
-					timestamp:								timestamp,
-					"is-on-promotion": 				.masterValues."is-on-promotion",
-					price: 										.masterValues.price,
-					"price-per-unit": 				.masterValues."price-per-unit",
-					"regular-price": 					.masterValues."regular-price",
+				"price-in-time": [{
+					timestamp:					timestamp,
+					"is-on-promotion": 			.masterValues."is-on-promotion",
+					price: 						.masterValues.price,
+					"price-per-unit": 			.masterValues."price-per-unit",
+					"regular-price": 			.masterValues."regular-price",
 					"price-per-unit-number": 	.masterValues."price-per-unit-number",
-					"best-price": 						.masterValues."best-price",
-					"stock-status": 					.masterValues."stock-status",
-					"is-new": 								.masterValues."is-new",
+					"best-price": 				.masterValues."best-price",
+					"stock-status": 			.masterValues."stock-status",
+					"is-new": 					.masterValues."is-new",
 				}],
 			}
 

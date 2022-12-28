@@ -12,12 +12,15 @@ services:
       # Mongo
       M_USERNAME: ${M_USERNAME}
       M_PASSWORD: ${M_PASSWORD}
-      DATABASE: ${DATABASE}
       # Extractor
       ENVIRONMENT: "prod"
       M_SERVER: products-db:27017
       RUN_INTERVAL: 14400 # 4h in seconds
       PORT: 6000
+
+      DATABASE_INTERNAL_STATE: services
+      COLLECTION_INTERNAL_STATE: extractor
+      DATABASE_EXTRACTOR: products
       # Datadog
       DD_AGENT_HOST: ${DD_AGENT_HOST}
     labels:
@@ -42,7 +45,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${M_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${M_PASSWORD}
-      MONGO_INITDB_DATABASE: ${DATABASE}
   
   products-db-ui:
     image: docker.io/mongo-express:latest
@@ -52,7 +54,7 @@ services:
       - products-db
       - traefik-proxy
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://${M_USERNAME}:${M_PASSWORD}@products-db:27017/ #${DATABASE}
+      ME_CONFIG_MONGODB_URL: mongodb://${M_USERNAME}:${M_PASSWORD}@products-db:27017/
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default

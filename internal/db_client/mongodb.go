@@ -2,9 +2,9 @@ package db_client
 
 import (
 	"context"
+	"extractor/internal/configs"
 	"fmt"
 	"log"
-	"os"
 	"sync"
 	"time"
 
@@ -32,11 +32,20 @@ func DBClient(ctxIn ...context.Context) *mongo.Client {
 func connectDB() {
 	fmt.Printf("\nStarted ConnectDB...\n")
 
-	mUsername := os.Getenv("M_USERNAME")
-	mPassword := os.Getenv("M_PASSWORD")
-	mServer := os.Getenv("M_SERVER")
+	mUsername, err := configs.GetEnv("M_USERNAME")
+	if err != nil {
+		panic(err)
+	}
+	mPassword, err := configs.GetEnv("M_PASSWORD")
+	if err != nil {
+		panic(err)
+	}
+	mServer, err := configs.GetEnv("M_SERVER")
+	if err != nil {
+		panic(err)
+	}
 
-	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s/", mUsername, mPassword, mServer)
+	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s/", *mUsername, *mPassword, *mServer)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongodbUrl))
 	if err != nil {
@@ -61,10 +70,33 @@ func connectDB() {
 	fmt.Printf("Connected to MongoDB\n")
 }
 
-// getting database collections
-func GetCollection(client *mongo.Client, collectionName string) *mongo.Collection {
-	database := os.Getenv("DATABASE")
+func GetCollectionInternalState(client *mongo.Client) *mongo.Collection {
+	databaseName, err := configs.GetEnv("DATABASE_INTERNAL_STATE")
+	if err != nil {
+		panic(err)
+	}
 
-	collection := client.Database(database).Collection(collectionName)
+	collectionName, err := configs.GetEnv("COLLECTION_INTERNAL_STATE")
+	if err != nil {
+		panic(err)
+	}
+
+	collection := getCollection(client, *databaseName, *collectionName)
+	return collection
+}
+
+func GetCollectionExtractor(client *mongo.Client, collectionName string) *mongo.Collection {
+	databaseName, err := configs.GetEnv("DATABASE_EXTRACTOR")
+	if err != nil {
+		panic(err)
+	}
+
+	collection := getCollection(client, *databaseName, collectionName)
+	return collection
+}
+
+// getting database collections
+func getCollection(client *mongo.Client, databaseName, collectionName string) *mongo.Collection {
+	collection := client.Database(databaseName).Collection(collectionName)
 	return collection
 }
