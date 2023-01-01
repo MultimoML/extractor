@@ -2,12 +2,17 @@ package main
 
 import (
 	"context"
-	"extractor/internal/server"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/multimoml/extractor/internal/server"
 )
 
+// @title Extractor API
+// @version 1.0.0
+// @host localhost:6000
+// @BasePath /extractor
 func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 

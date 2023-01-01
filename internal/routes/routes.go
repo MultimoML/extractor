@@ -1,9 +1,11 @@
 package routes
 
 import (
-	"extractor/internal/controllers"
 	"net/http"
 
+	"github.com/multimoml/extractor/internal/controllers"
+
+	_ "github.com/multimoml/extractor/docs"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 

@@ -20,7 +20,7 @@ server: proto ## Run the microservice locally
 	go run main.go
 
 run: build ## Run the microservice in a container
-	docker run -p 6001:6001 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/extractor:latest
+	docker run -p 6001:6000 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/extractor:latest
 
 build: proto tidy ## Build the Docker image
 	docker build -t ghcr.io/multimoml/extractor:latest .

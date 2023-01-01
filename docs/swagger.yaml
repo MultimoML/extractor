@@ -1,0 +1,47 @@
+basePath: /extractor
+host: localhost:6000
+info:
+  contact: {}
+  title: Extractor API
+  version: 1.0.0
+paths:
+  /extract:
+    post:
+      description: Initiate extraction
+      responses:
+        "202":
+          description: Accepted
+          schema:
+            type: ""
+      summary: Initiate extraction
+      tags:
+      - Extract
+  /info:
+    get:
+      description: Get extractors internal state
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: ""
+      summary: Get internal state
+      tags:
+      - Info
+  /self:
+    get:
+      description: Get liveness ad readiness status of the microservice
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: ""
+        "503":
+          description: Service Unavailable
+          schema:
+            type: ""
+      summary: Get liveness and readiness status of the microservice
+      tags:
+      - Kubernetes
+swagger: "2.0"

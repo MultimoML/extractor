@@ -1,0 +1,72 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Extractor API",
+        "contact": {},
+        "version": "1.0.0"
+    },
+    "host": "localhost:6000",
+    "basePath": "/extractor",
+    "paths": {
+        "/extract": {
+            "post": {
+                "description": "Initiate extraction",
+                "tags": [
+                    "Extract"
+                ],
+                "summary": "Initiate extraction",
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "type": ""
+                        }
+                    }
+                }
+            }
+        },
+        "/info": {
+            "get": {
+                "description": "Get extractors internal state",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Info"
+                ],
+                "summary": "Get internal state",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": ""
+                        }
+                    }
+                }
+            }
+        },
+        "/self": {
+            "get": {
+                "description": "Get liveness ad readiness status of the microservice",
+                "tags": [
+                    "Kubernetes"
+                ],
+                "summary": "Get liveness and readiness status of the microservice",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": ""
+                        }
+                    },
+                    "503": {
+                        "description": "Service Unavailable",
+                        "schema": {
+                            "type": ""
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

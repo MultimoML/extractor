@@ -3,11 +3,12 @@ package scraper
 import (
 	"context"
 	"encoding/json"
-	"extractor/internal/models"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/multimoml/extractor/internal/models"
 
 	"github.com/go-resty/resty/v2"
 )

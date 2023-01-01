@@ -2,12 +2,13 @@ package server
 
 import (
 	"context"
-	"extractor/internal/configs"
-	"extractor/internal/db_client"
-	"extractor/internal/internal_state"
-	"extractor/internal/routes"
 	"fmt"
 	"log"
+
+	"github.com/multimoml/extractor/internal/configs"
+	"github.com/multimoml/extractor/internal/db_client"
+	"github.com/multimoml/extractor/internal/internal_state"
+	"github.com/multimoml/extractor/internal/routes"
 
 	"github.com/gin-gonic/gin"
 	gintrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/gin-gonic/gin"

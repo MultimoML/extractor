@@ -2,11 +2,12 @@ package scraper
 
 import (
 	"context"
-	"extractor/internal/db_client"
-	"extractor/internal/models"
 	"fmt"
 	"log"
 	"time"
+
+	"github.com/multimoml/extractor/internal/db_client"
+	"github.com/multimoml/extractor/internal/models"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

@@ -8,8 +8,10 @@ RUN go mod download && go mod verify
 
 COPY . .
 
+RUN go install github.com/swaggo/swag/cmd/swag@latest && swag init
+
 # -v option for verbose, CGO_ENABLED=0 means we don't need libc library on host container
-RUN CGO_ENABLED=0 go build -o /extractor cmd/server/main.go
+RUN CGO_ENABLED=0 go build -o /extractor main.go
 
 ## Deploy
 FROM gcr.io/distroless/static-debian11:latest

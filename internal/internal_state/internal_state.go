@@ -2,15 +2,16 @@ package internal_state
 
 import (
 	"context"
-	"extractor/internal/configs"
-	"extractor/internal/db_client"
-	"extractor/internal/models"
-	"extractor/internal/scraper"
 	"fmt"
 	"log"
 	"strconv"
 	"sync"
 	"time"
+
+	"github.com/multimoml/extractor/internal/configs"
+	"github.com/multimoml/extractor/internal/db_client"
+	"github.com/multimoml/extractor/internal/models"
+	"github.com/multimoml/extractor/internal/scraper"
 
 	"github.com/jasonlvhit/gocron"
 	"go.mongodb.org/mongo-driver/bson"

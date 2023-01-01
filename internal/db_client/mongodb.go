@@ -2,11 +2,12 @@ package db_client
 
 import (
 	"context"
-	"extractor/internal/configs"
 	"fmt"
 	"log"
 	"sync"
 	"time"
+
+	"github.com/multimoml/extractor/internal/configs"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -32,22 +33,12 @@ func DBClient(ctxIn ...context.Context) *mongo.Client {
 func connectDB() {
 	fmt.Printf("\nStarted ConnectDB...\n")
 
-	dbUsername, err := configs.GetEnv("DB_USERNAME")
-	if err != nil {
-		panic(err)
-	}
-	dbPassword, err := configs.GetEnv("DB_PASSWORD")
-	if err != nil {
-		panic(err)
-	}
-	dbHost, err := configs.GetEnv("DB_HOST")
+	dbConnectionString, err := configs.GetEnv("DB_CONNECTION_STRING")
 	if err != nil {
 		panic(err)
 	}
 
-	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s/", *dbUsername, *dbPassword, *dbHost)
-
-	client, err := mongo.NewClient(options.Client().ApplyURI(mongodbUrl))
+	client, err := mongo.NewClient(options.Client().ApplyURI(*dbConnectionString))
 	if err != nil {
 		log.Fatal(err)
 	}

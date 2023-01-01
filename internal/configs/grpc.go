@@ -2,8 +2,9 @@ package configs
 
 import (
 	"context"
-	"extractor/internal/proto"
 	"log"
+
+	"github.com/multimoml/extractor/internal/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"

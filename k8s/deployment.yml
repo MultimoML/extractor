@@ -21,20 +21,10 @@ spec:
         - name: RUN_INTERVAL
           value: 14400 # 4h in seconds
 
-        - name: DB_USERNAME
+        - name: DB_CONNECTION_STRING
           valueFrom:
             secretKeyRef:
-              key: db_username
-              name: database-credentials
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: db_password
-              name: database-credentials
-        - name: DB_HOST
-          valueFrom:
-            secretKeyRef:
-              key: db_host
+              key: connection_string
               name: database-credentials
 
         - name: DATABASE_INTERNAL_STATE
