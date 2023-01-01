@@ -1,44 +1,26 @@
 # Extractor
 
-## Project description
+Microservice to extract data from online shops.
 
-Extractor extracts (scrapes) data from web stores and puts it into a Mongo database. It does that periodicaly. 
-
-Author: [Miha Krumpestar](https://github.com/mk2376)
+Available endpoints:
+- [`/self`](https://multimo.ml/extractor/self): Liveliness and readiness check
+- [`/v1/info`](https://multimo.ml/extractor/v1/info): Returns internal state of extractor
+- [`/v1/extract`](https://multimo.ml/extractor/v1/extract): Signals extractor to initiate a new extraction
 
 ## Setup/installation
 
-```
-go mod download && go mod verify
-```
+Prerequisites:
+- [Go](https://go.dev/)
+- [Docker](https://www.docker.com/)
 
-Other usages are defined in [Makefile](Makefile)
+Example usage:
+- See all available options: `make help`
+- Run microservice in a container: `make run`
+- Release a new version: `make release ver=x.y.z`
 
-## Endpoints
-
-### extractor (public)
-
-Base URL: `https://multimo.ml/extractor`
-
-Paths:
-
-- `/self` Health check.
-- `/v1/info` Server internal state.
-- `/v1/extract` Manualy starts extraction.
-
-## ˇ DEPRICATED ˇ
-
-### products-db (private)
-
-MongoDB instance. `M_USERNAME` and `M_PASSWORD` are provided in `.env`.
-
-URL: `mongodb://${M_USERNAME}:${M_PASSWORD}@products-db:27017/`
-
-### products-db-ui (public, behind middleware auth)
-
-Mongo-express instance, connected to `products-db`. Credentials  are provided in `.env` in [shared repository](https://github.com/MultimoML/shared).
-
-URL: `https://products-db-ui.multimo.ml`
+All work should be done on `main`, `prod` should never be checked out or manually edited.
+When releasing, the changes are merged into `prod` and both branches are pushed.
+A GitHub Action workflow will then build and publish the image to GHCR, and deploy it to Kubernetes.
 
 ## License
 
