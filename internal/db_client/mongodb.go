@@ -32,20 +32,20 @@ func DBClient(ctxIn ...context.Context) *mongo.Client {
 func connectDB() {
 	fmt.Printf("\nStarted ConnectDB...\n")
 
-	mUsername, err := configs.GetEnv("M_USERNAME")
+	dbUsername, err := configs.GetEnv("DB_USERNAME")
 	if err != nil {
 		panic(err)
 	}
-	mPassword, err := configs.GetEnv("M_PASSWORD")
+	dbPassword, err := configs.GetEnv("DB_PASSWORD")
 	if err != nil {
 		panic(err)
 	}
-	mServer, err := configs.GetEnv("M_SERVER")
+	dbHost, err := configs.GetEnv("DB_HOST")
 	if err != nil {
 		panic(err)
 	}
 
-	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s/", *mUsername, *mPassword, *mServer)
+	mongodbUrl := fmt.Sprintf("mongodb://%s:%s@%s/", *dbUsername, *dbPassword, *dbHost)
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongodbUrl))
 	if err != nil {

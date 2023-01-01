@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.github.multimoml.main;
+option go_package = "com/github/multimoml/dispatcher/proto";
+
+service Config {
+  rpc GetConfig (ConfigRequest) returns (ConfigResponse) {}
+}
+
+message ConfigRequest {
+  string key = 1;
+}
+
+message ConfigResponse {
+  string value = 1;
+}

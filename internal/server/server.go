@@ -31,7 +31,6 @@ func Run(ctx context.Context) {
 	err := profiler.Start(
 		profiler.WithService(serviceName),
 		profiler.WithEnv(environment),
-		profiler.WithVersion("0.0.1"),
 		profiler.WithTags("router:GinGonic,database:MongoDB"),
 		profiler.WithProfileTypes(
 			profiler.CPUProfile,

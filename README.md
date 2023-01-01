@@ -26,6 +26,8 @@ Paths:
 - `/v1/info` Server internal state.
 - `/v1/extract` Manualy starts extraction.
 
+## ˇ DEPRICATED ˇ
+
 ### products-db (private)
 
 MongoDB instance. `M_USERNAME` and `M_PASSWORD` are provided in `.env`.
