@@ -23,7 +23,7 @@ run: build ## Run the microservice in a container
 	docker run -p 6001:6000 -v $(shell pwd)/.env:/.env -d ghcr.io/multimoml/extractor:latest
 
 build: proto tidy ## Build the Docker image
-	docker build -t ghcr.io/multimoml/extractor:latest .
+	sudo docker build -t ghcr.io/multimoml/extractor:latest .
 
 push: build ## Manually push the Docker image
 	docker push ghcr.io/multimoml/extractor:latest
