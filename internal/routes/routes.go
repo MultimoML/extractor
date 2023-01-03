@@ -17,10 +17,10 @@ func Routes(router *gin.Engine) {
 	extractor.GET("/self", controllers.Self())
 
 	extractor.GET("/openapi", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/products/openapi/index.html")
+		c.Redirect(http.StatusMovedPermanently, "/extractor/openapi/index.html")
 	})
 	extractor.GET("/", func(c *gin.Context) {
-		c.Redirect(http.StatusMovedPermanently, "/products/openapi/index.html")
+		c.Redirect(http.StatusMovedPermanently, "/extractor/openapi/index.html")
 	})
 	extractor.GET("/openapi/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
