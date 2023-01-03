@@ -19,7 +19,7 @@ spec:
         - name: ENVIRONMENT
           value: "prod"
         - name: RUN_INTERVAL
-          value: 14400 # 4h in seconds
+          value: "14400" # 4h in seconds
 
         - name: DB_CONNECTION_STRING
           valueFrom:
