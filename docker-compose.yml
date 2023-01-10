@@ -2,7 +2,7 @@ version: '3'
 
 services:
   extractor:
-    image: multimoml/extractor:latest
+    image: ghcr.io/multimoml/extractor:latest
     container_name: extractor
     restart: unless-stopped
     networks:
@@ -10,13 +10,12 @@ services:
       - traefik-proxy
     environment: 
       # Mongo
-      M_USERNAME: ${M_USERNAME}
-      M_PASSWORD: ${M_PASSWORD}
+      DB_CONNECTION_STRING: ${DB_CONNECTION_STRING}
       # Extractor
       ENVIRONMENT: "prod"
-      M_SERVER: products-db:27017
       RUN_INTERVAL: 14400 # 4h in seconds
       PORT: 6000
+      CONFIG_SERVER: ${CONFIG_SERVER}
 
       DATABASE_INTERNAL_STATE: services
       COLLECTION_INTERNAL_STATE: extractor
@@ -54,7 +53,7 @@ services:
       - products-db
       - traefik-proxy
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://${M_USERNAME}:${M_PASSWORD}@products-db:27017/
+      ME_CONFIG_MONGODB_URL: ${DB_CONNECTION_STRING}
     labels:
       traefik.enable: true
       traefik.docker.network: traefik-proxy # needed if you have multiple networks and no default
